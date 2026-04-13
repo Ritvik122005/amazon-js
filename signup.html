@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Create account</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/shared/general.css">
+    <link rel="stylesheet" href="styles/pages/auth.css">
+  </head>
+  <body class="auth-page">
+    <aside class="auth-sidebar" aria-label="Account navigation">
+      <p class="auth-sidebar-title">Account</p>
+      <a href="amazon.html" class="auth-sidebar-brand">← Back to shop</a>
+      <nav class="auth-sidebar-nav">
+        <a href="login.html" class="auth-sidebar-link">Sign in</a>
+        <a href="signup.html" class="auth-sidebar-link is-active" aria-current="page">Create account</a>
+      </nav>
+      <p class="auth-sidebar-foot">
+        Create an account to save your cart and track orders. Password must be at least 6 characters.
+      </p>
+    </aside>
+
+    <div class="auth-main">
+      <div class="auth-card">
+        <h1>Create account</h1>
+        <p class="auth-card-sub">Use your email and a strong password to get started.</p>
+        <form id="signup-form" class="auth-form">
+          <div class="auth-field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" required>
+          </div>
+          <div class="auth-field">
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" autocomplete="new-password" required minlength="6">
+          </div>
+          <button type="submit" class="auth-submit">Create account</button>
+        </form>
+        <p id="message" class="auth-message" role="alert"></p>
+        <p class="auth-footer">Already have an account? <a href="login.html">Sign in</a></p>
+      </div>
+    </div>
+
+    <script type="module">
+      import { register } from './styles/scripts/auth.js';
+
+      const form = document.getElementById('signup-form');
+      const msg = document.getElementById('message');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        msg.textContent = '';
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        const res = await register(email, password);
+        if (!res.success) {
+          msg.textContent = res.message;
+          return;
+        }
+        window.location.href = 'amazon.html';
+      });
+    </script>
+  </body>
+</html>
